@@ -1,0 +1,25 @@
+clc;
+clear all;
+close all;
+% Charger l'image hôte et l'image à tatouer
+image_hote = imread('im1.png');
+image_hote = rgb2gray(image_hote);
+image_hote = double(image_hote);
+[M,N] = size(image_hote);
+imshow(uint8(image_hote));
+
+tatouage = imread('qr.jpg');
+tatouage = rgb2gray(tatouage);
+tatouage = double(tatouage);
+tatouage = imresize(tatouage,[M,N]);
+%imshow(uint8(image_a_tatouer));
+
+dct_hote=dct2(image_hote);
+dct_tatouage=dct2(tatouage);
+
+alpha = 0.01;
+dct_ImW = dct_hote + (dct_tatouage * alpha);
+
+ImWat = idct2(dct_ImW);
+imshow(uint8(ImWat));
+title('Image tatouée');
